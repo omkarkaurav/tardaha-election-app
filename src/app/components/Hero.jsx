@@ -38,7 +38,7 @@ export default function Hero() {
         <div className="absolute w-24 h-24 bottom-[10%] right-[20%] bg-white/10 rounded-full" style={{ transform: `translateY(${scrollOffset * 0.8}px)` }}></div>
         <div className="absolute w-20 h-20 top-1/2 left-[5%] bg-white/10 rounded-full" style={{ transform: `translateY(${scrollOffset * 0.9}px)` }}></div>
       </div>
-      <div className="container mx-auto px-5 z-10">
+      <div className="container mx-auto px-5 z-10  max-sm:pt-20">
         <div className="flex flex-col md:flex-row items-center justify-center gap-12 text-center md:text-left">
           <div className="flex-shrink-0">
             <div className="w-52 h-52 md:w-64 md:h-64 p-2 rounded-full bg-gradient-to-br from-[#ff9800] to-white photo-float-animation">
