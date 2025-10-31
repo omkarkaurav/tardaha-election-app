@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { FaTrash, FaDownload, FaTimes, FaKey, FaEnvelope } from 'react-icons/fa';
 
-const API_URL = 'http://localhost:3001';
+const API_URL = '/api';
 
 export default function AdminPanel({ isOpen, onClose }) {
   const [email, setEmail] = useState('');
@@ -15,7 +15,7 @@ export default function AdminPanel({ isOpen, onClose }) {
     e.preventDefault();
     setError('');
     try {
-      const res = await fetch(`${API_URL}/api/admin/login`, {
+      const res = await fetch(`${API_URL}/admin/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),

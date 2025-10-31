@@ -5,7 +5,7 @@ import Celebration from './Celebration';
 import AchievementBadge from './AchievementBadge';
 import ShimmerSupporterItem from './ShimmerSupporterItem';
 
-const API_URL = 'http://localhost:3001';
+const API_URL = 'http://localhost:3000';
 
 // Utility function to calculate relative time
 function timeAgo(dateString) {
@@ -64,7 +64,7 @@ export default function Support() {
         setIsLoading(true);
         const isFirstSupport = (stats.total || 0) === 0;
         try {
-            const res = await fetch(`${API_URL}/api/supporters`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(formData) });
+            const res = await fetch(`${API_URL}/supporters`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(formData) });
             if (!res.ok) throw new Error('Network error during submission');
             const newSupporter = await res.json();
             setStats(prev => ({ ...prev, total: (prev.total || 0) + 1, [formData.village]: (prev[formData.village] || 0) + 1 }));
