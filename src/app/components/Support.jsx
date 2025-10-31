@@ -5,7 +5,7 @@ import Celebration from './Celebration';
 import AchievementBadge from './AchievementBadge';
 import ShimmerSupporterItem from './ShimmerSupporterItem';
 
-const API_URL = 'http://localhost:3000';
+const API_URL = '/api';
 
 // Utility function to calculate relative time
 function timeAgo(dateString) {
