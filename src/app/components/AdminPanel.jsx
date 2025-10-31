@@ -43,7 +43,7 @@ export default function AdminPanel({ isOpen, onClose }) {
     if (action === 'delete') {
       if (window.confirm('Are you sure you want to delete ALL supporter data? This cannot be undone.')) {
         try {
-          const res = await fetch(`${API_URL}/api/admin/delete-all`, { method: 'DELETE', headers });
+          const res = await fetch(`${API_URL}/admin/delete-all`, { method: 'DELETE', headers });
           if (!res.ok) throw new Error(await res.json().then(d => d.error));
           alert('All data deleted successfully. The page will now reload.');
           window.location.reload();
@@ -55,7 +55,7 @@ export default function AdminPanel({ isOpen, onClose }) {
 
     if (action === 'export') {
       try {
-        const res = await fetch(`${API_URL}/api/admin/export`, { headers });
+        const res = await fetch(`${API_URL}/admin/export`, { headers });
         if (!res.ok) throw new Error(await res.json().then(d => d.error));
         const blob = await res.blob();
         const url = window.URL.createObjectURL(blob);

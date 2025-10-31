@@ -39,7 +39,7 @@ export default function Support() {
         const fetchData = async () => {
             setIsListLoading(true);
             try {
-                const [statsRes, recentRes] = await Promise.all([ fetch(`${API_URL}/api/stats`), fetch(`${API_URL}/api/recent`) ]);
+                const [statsRes, recentRes] = await Promise.all([ fetch(`${API_URL}/stats`), fetch(`${API_URL}/recent`) ]);
                 if (!statsRes.ok || !recentRes.ok) throw new Error("Failed to fetch data");
                 const statsData = await statsRes.json();
                 const recentData = await recentRes.json();
