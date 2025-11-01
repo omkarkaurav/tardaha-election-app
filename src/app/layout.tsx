@@ -18,7 +18,7 @@ export const metadata = {
  */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="hi" className="!scroll-smooth" suppressHydrationWarning={true}>
+    <html lang="hi" className="!scroll-smooth overflow-x-hidden" suppressHydrationWarning={true}>
       <body className={hindSiliguri.className}>
         {children}
       </body>

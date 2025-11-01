@@ -1,3 +1,5 @@
+// src/app/components/VillageMotif.jsx
+
 import { FaTree, FaHome, FaTractor, FaWater, FaSun } from 'react-icons/fa';
 
 export default function VillageMotif() {
@@ -11,7 +13,7 @@ export default function VillageMotif() {
 
   return (
     <div className="py-10 bg-white">
-      <div className="flex justify-center gap-12 text-5xl text-[#4caf50] opacity-70">
+      <div className="flex justify-center gap-4 md:gap-12 text-4xl md:text-5xl text-[#4caf50] opacity-70">
         {icons.map((icon, index) => (
           <div
             key={index}
