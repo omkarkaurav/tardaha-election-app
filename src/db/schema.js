@@ -5,8 +5,9 @@ export const supporters = pgTable('supporters', {
     id: serial('id').primaryKey(),
     name: varchar('name', { length: 255 }).notNull(),
     village: varchar('village', { length: 50 }).notNull(),
-    contact: varchar('contact', { length: 15 }), // Optional
-    comment: text('comment'), // Optional
+    contact: varchar('contact', { length: 15 }),
+    comment: text('comment'),
+    ipAddress: varchar('ip_address', { length: 50 }).notNull().unique(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 

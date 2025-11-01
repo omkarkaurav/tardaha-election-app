@@ -54,6 +54,7 @@ export default function Support() {
     const validate = () => {
         const newErrors = {};
         if (!formData.name.trim()) newErrors.name = 'कृपया अपना नाम लिखें';
+        // REVERTED: contact is optional again, only check format if present
         if (formData.contact && !/^[6-9]\d{9}$/.test(formData.contact)) newErrors.contact = 'कृपया सही मोबाइल नंबर लिखें (10 अंक)';
         if (!formData.village) newErrors.village = 'कृपया अपना गाँव चुनें';
         setErrors(newErrors);
@@ -65,8 +66,17 @@ export default function Support() {
         const isFirstSupport = (stats.total || 0) === 0;
         try {
             const res = await fetch(`${API_URL}/supporters`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(formData) });
-            if (!res.ok) throw new Error('Network error during submission');
-            const newSupporter = await res.json();
+            const data = await res.json(); // NEW: Capture response data for error checking
+            
+            if (!res.ok) {
+                 // Check for the specific IP duplicate error status (409) or message
+                if (res.status === 409 || (data.error && data.error.includes('already registered'))) { // MODIFIED: Check for 409/duplicate message
+                    throw new Error(data.error); 
+                }
+                throw new Error(data.error || 'Network error during submission');
+            }
+            
+            const newSupporter = data; // MODIFIED: Use captured data
             setStats(prev => ({ ...prev, total: (prev.total || 0) + 1, [formData.village]: (prev[formData.village] || 0) + 1 }));
             setRecentSupporters([newSupporter, ...recentSupporters].slice(0, 10));
             setMessage(`धन्यवाद ${formData.name}! आपका समर्थन सफलतापूर्वक जोड़ दिया गया है।`);
@@ -75,7 +85,12 @@ export default function Support() {
             if (isFirstSupport) { setShowCelebration(true); setTimeout(() => setShowCelebration(false), 4000); }
         } catch (error) {
             console.error("Submission error:", error);
-            setMessage('समर्थन जोड़ने में विफल। कृपया पुनः प्रयास करें।');
+            // MODIFIED: Check for the specific IP duplicate error message
+            if (error.message.includes('already registered')) {
+                setMessage(error.message); // Use the specific error message from the API
+            } else {
+                setMessage('समर्थन जोड़ने में विफल। कृपया पुनः प्रयास करें।');
+            }
             setView('form');
         } finally {
             setIsLoading(false);
@@ -116,7 +131,7 @@ export default function Support() {
                 </div>
                 
                 <div className="bg-white rounded-2xl p-6 sm:p-10 shadow-[0_10px_25px_rgba(0,0,0,0.15)] border-4 border-[#4caf50]">
-                    {message && (<div className={`p-4 mb-6 rounded-lg font-semibold text-center text-white ${message.includes('विफल') ? 'bg-red-500' : 'bg-green-500'}`}>{message}</div>)}
+                    {message && (<div className={`p-4 mb-6 rounded-lg font-semibold text-center text-white ${message.includes('विफल') || message.includes('already registered') ? 'bg-red-500' : 'bg-green-500'}`}>{message}</div>)}
                     
                     {view === 'form' && (
                         <form onSubmit={(e) => { e.preventDefault(); if (validate()) setView('preview'); }} noValidate className="fade-in-animation">
